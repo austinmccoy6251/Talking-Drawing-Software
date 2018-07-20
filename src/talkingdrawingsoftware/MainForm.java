@@ -958,6 +958,7 @@ public class MainForm extends javax.swing.JFrame {
         //Check to make sure all word lists and responses are loaded
         if (preTDRLoaded && postTDRLoaded && scienceWordListLoaded && academicWordListLoaded && blackWordListLoaded && commonWordListLoaded && questionWordListLoaded) {
 
+
             //Clear lists
             preTDResponses.clear();
             scienceWordList.clear();
@@ -991,34 +992,30 @@ public class MainForm extends javax.swing.JFrame {
                     //Remove punctuation
                     char[] wordCharacters = word.toCharArray();
                     String wordNoPunctuation = "";
-                    for (int charIndex = 0; charIndex < wordCharacters.length; charIndex++) 
-                        if (wordCharacters[charIndex] == '\'' || Character.isAlphabetic(wordCharacters[charIndex])) 
+                    for (int charIndex = 0; charIndex < wordCharacters.length; charIndex++)
+                        if (wordCharacters[charIndex] == '\'' || Character.isAlphabetic(wordCharacters[charIndex]))
                             wordNoPunctuation += wordCharacters[charIndex];
-                                           
+
                     word = wordNoPunctuation;
 
                     //Cleanup word
                     word = word.toLowerCase().trim();
 
                     //Skip if it was just punctuation
-                    if (word.length() == 0) {
+                    if (word.length() == 0)
                         continue;
-                    }
 
                     //Filter if word is common word and filter enabled
-                    if (commonWordList.contains(word) && checkbox_commonWordFilter.isSelected()) {
+                    if (commonWordList.contains(word) && checkbox_commonWordFilter.isSelected())
                         continue;
-                    }
 
                     //Filter if blacklisted and filter enabled
-                    if (blackWordList.contains(word) && checkbox_blackListFilter.isSelected()) {
+                    if (blackWordList.contains(word) && checkbox_blackListFilter.isSelected())
                         continue;
-                    }
 
                     //Filter if in question and filter enabled
-                    if (questionWordList.contains(word) && checkbox_questionListFilter.isSelected()) {
+                    if (questionWordList.contains(word) && checkbox_questionListFilter.isSelected())
                         continue;
-                    }
 
                     //Add to list
                     result.updateWord(word);
@@ -1045,34 +1042,30 @@ public class MainForm extends javax.swing.JFrame {
                     //Remove punctuation
                     char[] wordCharacters = word.toCharArray();
                     String wordNoPunctuation = "";
-                    for (int charIndex = 0; charIndex < wordCharacters.length; charIndex++) 
-                        if (wordCharacters[charIndex] == '\'' || Character.isAlphabetic(wordCharacters[charIndex])) 
+                    for (int charIndex = 0; charIndex < wordCharacters.length; charIndex++)
+                        if (wordCharacters[charIndex] == '\'' || Character.isAlphabetic(wordCharacters[charIndex]))
                             wordNoPunctuation += wordCharacters[charIndex];
-                                    
+
                     word = wordNoPunctuation;
 
                     //Cleanup word
                     word = word.toLowerCase().trim();
 
                     //Skip if it was just punctuation
-                    if (word.length() == 0) {
+                    if (word.length() == 0)
                         continue;
-                    }
 
                     //Filter if word is common word and filter enabled
-                    if (commonWordList.contains(word) && checkbox_commonWordFilter.isSelected()) {
+                    if (commonWordList.contains(word) && checkbox_commonWordFilter.isSelected())
                         continue;
-                    }
 
                     //Filter if blacklisted and filter enabled
-                    if (blackWordList.contains(word) && checkbox_blackListFilter.isSelected()) {
+                    if (blackWordList.contains(word) && checkbox_blackListFilter.isSelected())
                         continue;
-                    }
 
                     //Filter if in question and filter enabled
-                    if (questionWordList.contains(word) && checkbox_questionListFilter.isSelected()) {
+                    if (questionWordList.contains(word) && checkbox_questionListFilter.isSelected())
                         continue;
-                    }
 
                     //Add to list
                     result.updateWord(word);
@@ -1093,139 +1086,103 @@ public class MainForm extends javax.swing.JFrame {
             Map<String, Integer> frequency_postAllWords = new HashMap();
 
             //Initialize Frequency Lists
-            for (int index = 0; index < frequency_preScienceWordList.length; index++) {
+            for (int index = 0; index < frequency_preScienceWordList.length; index++)
                 frequency_preScienceWordList[index] = 0;
-            }
-            for (int index = 0; index < frequency_preAcademicWordList.length; index++) {
+            for (int index = 0; index < frequency_preAcademicWordList.length; index++)
                 frequency_preAcademicWordList[index] = 0;
-            }
-            for (int index = 0; index < frequency_postScienceWordList.length; index++) {
+            for (int index = 0; index < frequency_postScienceWordList.length; index++)
                 frequency_postScienceWordList[index] = 0;
-            }
-            for (int index = 0; index < frequency_postAcademicWordList.length; index++) {
+            for (int index = 0; index < frequency_postAcademicWordList.length; index++)
                 frequency_postAcademicWordList[index] = 0;
-            }
 
-            //Collect academic, science, and other frequency lists from the parsed pre-TD 
+
+            //Collect academic, science, and other frequency lists from the parsed pre-TD
             for (TDResult result : preTDResults) {
 
                 //Load science language
-                for (int scienceWordIndex = 0; scienceWordIndex < scienceWordList.size(); scienceWordIndex++) {
-                    if (result.getFrequencyMap().containsKey(scienceWordList.get(scienceWordIndex))) {
+                for (int scienceWordIndex = 0; scienceWordIndex < scienceWordList.size(); scienceWordIndex++)
+                    if (result.getFrequencyMap().containsKey(scienceWordList.get(scienceWordIndex)))
                         frequency_preScienceWordList[scienceWordIndex] += result.getFrequencyMap().get(scienceWordList.get(scienceWordIndex));
-                    }
-                }
 
                 //Load academic language
-                for (int academicWordIndex = 0; academicWordIndex < academicWordList.size(); academicWordIndex++) {
-
-                    if (result.getFrequencyMap().containsKey(academicWordList.get(academicWordIndex))) {
+                for (int academicWordIndex = 0; academicWordIndex < academicWordList.size(); academicWordIndex++)
+                    if (result.getFrequencyMap().containsKey(academicWordList.get(academicWordIndex)))
                         frequency_preAcademicWordList[academicWordIndex] += result.getFrequencyMap().get(academicWordList.get(academicWordIndex));
-                    }
-                }
+
 
                 //Load all other pieces of language
-                for (Map.Entry<String, Integer> entry : result.getFrequencyMap().entrySet()) {
-                    if (frequency_preAllWords.containsKey(entry.getKey())) {
+                for (Map.Entry<String, Integer> entry : result.getFrequencyMap().entrySet())
+                    if (frequency_preAllWords.containsKey(entry.getKey()))
                         frequency_preAllWords.put(entry.getKey(), frequency_preAllWords.get(entry.getKey()) + 1);
-                    } else {
+                    else
                         frequency_preAllWords.put(entry.getKey(), 1);
-                    }
-                }
             }
 
-            //Collect academic, science, and other frequency lists from the parsed post-TD 
+            //Collect academic, science, and other frequency lists from the parsed post-TD
             for (TDResult result : postTDResults) {
 
                 //Load science language
-                for (int scienceWordIndex = 0; scienceWordIndex < scienceWordList.size(); scienceWordIndex++) {
-                    if (result.getFrequencyMap().containsKey(scienceWordList.get(scienceWordIndex))) {
+                for (int scienceWordIndex = 0; scienceWordIndex < scienceWordList.size(); scienceWordIndex++)
+                    if (result.getFrequencyMap().containsKey(scienceWordList.get(scienceWordIndex)))
                         frequency_postScienceWordList[scienceWordIndex] += result.getFrequencyMap().get(scienceWordList.get(scienceWordIndex));
-                    }
-                }
 
                 //Load academic language
-                for (int academicWordIndex = 0; academicWordIndex < academicWordList.size(); academicWordIndex++) {
-                    if (result.getFrequencyMap().containsKey(academicWordList.get(academicWordIndex))) {
+                for (int academicWordIndex = 0; academicWordIndex < academicWordList.size(); academicWordIndex++)
+                    if (result.getFrequencyMap().containsKey(academicWordList.get(academicWordIndex)))
                         frequency_postAcademicWordList[academicWordIndex] += result.getFrequencyMap().get(academicWordList.get(academicWordIndex));
-                    }
-                }
+
 
                 //Load all other pieces of language
-                for (Map.Entry<String, Integer> entry : result.getFrequencyMap().entrySet()) {
-                    if (frequency_postAllWords.containsKey(entry.getKey())) {
+                for (Map.Entry<String, Integer> entry : result.getFrequencyMap().entrySet())
+                    if (frequency_postAllWords.containsKey(entry.getKey()))
                         frequency_postAllWords.put(entry.getKey(), frequency_postAllWords.get(entry.getKey()) + 1);
-                    } else {
+                    else
                         frequency_postAllWords.put(entry.getKey(), 1);
-                    }
-                }
             }
-
-            //Concatenate File Path
-            String filePath = outputFolderPath + "\\" + textbox_outputFile.getText() + ".csv";
-
-            //Create File Writer and Buffered Writer
-            FileWriter fileWriter = null;
+                
             try {
-                fileWriter = new FileWriter(filePath);
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-            //Write Key
-            try {
+                
+                //Concatenate file path
+                String filePath = outputFolderPath + "\\" + textbox_outputFile.getText() + ".csv";
+                
+                //Create file/buffered writers
+                FileWriter fileWriter = new FileWriter(filePath);              
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                
+                //Write header key 
                 bufferedWriter.write("Word,Pre-TD Word Frequency, Post-TD Word Frequency, Delta Word Frequency\n\n");
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            try {
-                //Write Science Language Header
+                    
+                //Write science language header
                 bufferedWriter.write("\nScience Language\n");
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            //Write Science Language
-            int scienceWordCounterPre = 0;
-            int scienceWordCounterPost = 0;
-
-            for (int scienceWord = 0; scienceWord < scienceWordList.size(); scienceWord++) {
-                try {
+                          
+                //Science language counters
+                int scienceWordCounterPre = 0;
+                int scienceWordCounterPost = 0;
+                
+                //Write science language to file
+                for (int scienceWord = 0; scienceWord < scienceWordList.size(); scienceWord++) {
                     scienceWordCounterPre += frequency_preScienceWordList[scienceWord];
                     scienceWordCounterPost += frequency_postScienceWordList[scienceWord];
-
-                    bufferedWriter.write(scienceWordList.get(scienceWord) + "," + frequency_preScienceWordList[scienceWord] + "," + frequency_postScienceWordList[scienceWord] + "," + (frequency_postScienceWordList[scienceWord] - frequency_preScienceWordList[scienceWord]) + "\n");
-                } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                        
+                    bufferedWriter.write(scienceWordList.get(scienceWord) + "," + frequency_preScienceWordList[scienceWord] + "," + frequency_postScienceWordList[scienceWord] + "," + (frequency_postScienceWordList[scienceWord] - frequency_preScienceWordList[scienceWord]) + "\n");                 
                 }
-            }
-
-            try {
-                //Write Academic Language Header
+                
+                //Write academic language header
                 bufferedWriter.write("\n\nAcademic Language\n");
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            //Write Academic Language
-            int academicWordCounterPre = 0;
-            int academicWordCounterPost = 0;
-            for (int academicWord = 0; academicWord < academicWordList.size(); academicWord++) {
-                try {
+                             
+                //Academic language counters
+                int academicWordCounterPre = 0;
+                int academicWordCounterPost = 0;
+ 
+                //Write academic language to file
+                for (int academicWord = 0; academicWord < academicWordList.size(); academicWord++) {
                     academicWordCounterPre += frequency_preAcademicWordList[academicWord];
                     academicWordCounterPost += frequency_postAcademicWordList[academicWord];
 
-                    bufferedWriter.write(academicWordList.get(academicWord) + "," + frequency_preAcademicWordList[academicWord] + "," + frequency_postAcademicWordList[academicWord] + "," + (frequency_postAcademicWordList[academicWord] - frequency_preAcademicWordList[academicWord]) + "\n");
-                } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                    bufferedWriter.write(academicWordList.get(academicWord) + "," + frequency_preAcademicWordList[academicWord] + "," + frequency_postAcademicWordList[academicWord] + "," + (frequency_postAcademicWordList[academicWord] - frequency_preAcademicWordList[academicWord]) + "\n");                
                 }
-            }
-
-            //Results for Academic Total
-            try {
-                //Write Academic Language Header
+                
+                //Write total academic results
                 bufferedWriter.write("\n\nTotal Academic Language Pre-TD (words): " + academicWordCounterPre + "\n");
                 bufferedWriter.write("Total Academic Language Post-TD (words): " + academicWordCounterPost + "\n");
                 bufferedWriter.write("Change in Academic Language (words): " + (academicWordCounterPost - academicWordCounterPre) + "\n");
@@ -1236,114 +1193,74 @@ public class MainForm extends javax.swing.JFrame {
                 percentChange /= 100;
 
                 bufferedWriter.write("Change in Academic Language (%): " + percentChange + "%\n");
-
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            //Results for Science Total
-            try {
-                //Write Science Language Header
+               
+                //Write total science results
                 bufferedWriter.write("\n\nTotal Science Language Pre-TD (words): " + scienceWordCounterPre + "\n");
                 bufferedWriter.write("Total Science Language Post-TD (words): " + scienceWordCounterPost + "\n");
                 bufferedWriter.write("Change in Science Language (words): " + (scienceWordCounterPost - scienceWordCounterPre) + "\n");
 
-                double percentChange = 100 * (double) (scienceWordCounterPost - scienceWordCounterPre) / scienceWordCounterPre;
+                percentChange = 100 * (double) (scienceWordCounterPost - scienceWordCounterPre) / scienceWordCounterPre;
                 percentChange *= 100;
                 percentChange = Math.floor(percentChange);
                 percentChange /= 100;
-                System.out.println(percentChange);
                 bufferedWriter.write("Change in Science Language (%): " + percentChange + "%\n");
-
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            //Report Totals
-            try {
+           
+                //Write total results
                 bufferedWriter.write("\n\nTotal Language Pre-TD (words): " + (academicWordCounterPre + scienceWordCounterPre) + "\n");
                 bufferedWriter.write("Total Language Post-TD (words): " + (academicWordCounterPost + scienceWordCounterPost) + "\n");
                 bufferedWriter.write("Change in Total Language (words): " + ((academicWordCounterPost + scienceWordCounterPost) - (academicWordCounterPre + scienceWordCounterPre)) + "\n");
 
-                double percentChange = 100 * (double) (((academicWordCounterPost + scienceWordCounterPost) - (academicWordCounterPre + scienceWordCounterPre))) / (academicWordCounterPre + scienceWordCounterPre);
+                percentChange = 100 * (double) (((academicWordCounterPost + scienceWordCounterPost) - (academicWordCounterPre + scienceWordCounterPre))) / (academicWordCounterPre + scienceWordCounterPre);
                 percentChange *= 100;
                 percentChange = Math.floor(percentChange);
                 percentChange /= 100;
-
                 bufferedWriter.write("Change in Total Language (%): " + percentChange + "%\n\n\n");
-
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            //Write Key
-            try {
+                              
+                //Write report key
                 bufferedWriter.write("\n\nWord Type,Word,Word Frequency\n\n");
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            try {
-                //Write Full List Header
+            
+                //Write pre-TD header
                 bufferedWriter.write("\nPre-TD All Words Used\n");
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            //Write Full List
-            for (Map.Entry<String, Integer> entry : frequency_preAllWords.entrySet()) {
-                try {
+               
+                //Write pre-TD words
+                for (Map.Entry<String, Integer> entry : frequency_preAllWords.entrySet()) 
                     bufferedWriter.write("All Language," + entry.getKey() + "," + entry.getValue() + "\n");
-                } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            try {
-                //Write Full List Header
+                
+                //Write post-TD header
                 bufferedWriter.write("\nPost-TD All Words Used\n");
+                             
+                //Write post-TD words
+                for (Map.Entry<String, Integer> entry : frequency_postAllWords.entrySet()) 
+                    bufferedWriter.write("All Language," + entry.getKey() + "," + entry.getValue() + "\n");
+                                
+                //Close Readers
+                if (bufferedWriter != null) 
+                    bufferedWriter.close();
+                                
+                if (fileWriter != null) 
+                    fileWriter.close();
+                            
+                //Reset Word List & Response list
+                preTDResponses.clear();
+                preTDResults.clear();
+                scienceWordList.clear();
+                academicWordList.clear();
+                commonWordList.clear();
+                blackWordList.clear();
+                questionWordList.clear();
+                
             } catch (IOException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            //Write Full List
-            for (Map.Entry<String, Integer> entry : frequency_postAllWords.entrySet()) {
-                try {
-                    bufferedWriter.write("All Language," + entry.getKey() + "," + entry.getValue() + "\n");
-                } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            //Close Readers
-            if (bufferedWriter != null) {
-                try {
-                    bufferedWriter.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            //Reset Word List & Response list
-            preTDResponses.clear();
-            preTDResults.clear();
-            scienceWordList.clear();
-            academicWordList.clear();
-            commonWordList.clear();
-            blackWordList.clear();
-            questionWordList.clear();
         }
     }//GEN-LAST:event_button_analyzeActionPerformed
 
+    /**
+     * Button listener for the "Clear Files" button 
+     * This resets all file paths, file flags, labels, and buttons
+     * @param evt Action event for the button listener
+     */
     private void button_resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_resetActionPerformed
-        // TODO add your handling code here:
 
         //Reset Labels
         label_fileName_academicWordList.setText("File: Not Chosen");
@@ -1392,6 +1309,13 @@ public class MainForm extends javax.swing.JFrame {
         button_analyze.setEnabled(false);
     }//GEN-LAST:event_button_resetActionPerformed
 
+     /**
+     * Button listener for the "Choose File" button for the pre-TD responses
+     * Handles file dialogue interaction and updates GUI/file paths for common
+     * pre-TD list
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_chooseFile_PreTDListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseFile_PreTDListActionPerformed
         //Create a file chooser object set to the last open directory
         JFileChooser fc = new JFileChooser();
