@@ -577,7 +577,7 @@ public class MainForm extends javax.swing.JFrame {
         textarea_console.setRows(5);
         jScrollPane2.setViewportView(textarea_console);
 
-        main_panel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 850, 620, 60));
+        main_panel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 850, 620, 70));
 
         checkbox_commonWordFilter.setBackground(new java.awt.Color(78, 91, 121));
         checkbox_commonWordFilter.setFont(new java.awt.Font("Open Sans Light", 0, 18)); // NOI18N
