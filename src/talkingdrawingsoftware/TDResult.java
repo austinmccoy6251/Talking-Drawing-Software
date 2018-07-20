@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * 
- * TDResult is a container for the results of one TD Response
+ * TDResult is a container class for the results a one TD Response
  */
 public class TDResult {
    

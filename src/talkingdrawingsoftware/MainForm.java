@@ -21,7 +21,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author austi
+ * @author Austin McCoy
+ * This is the GUI form for the software
  */
 public class MainForm extends javax.swing.JFrame {
 
@@ -727,7 +728,7 @@ public class MainForm extends javax.swing.JFrame {
             String fileNameToDisplay = questionWordListFilePath.length() < 35 ? questionWordListFilePath : questionWordListFilePath.substring(0, 35) + "...";
             label_fileName_questionWordList.setText("File: " + fileNameToDisplay);
 
-            updateConsole("Loaded Question List File...\nPath: " + questionWordListFilePath);
+            updateConsole("Loaded Question List file...\nPath: " + questionWordListFilePath);
             questionWordListLoaded = true;
         }
     }//GEN-LAST:event_button_chooseFile_questionWordListActionPerformed
@@ -818,7 +819,7 @@ public class MainForm extends javax.swing.JFrame {
             String fileNameToDisplay = commonWordListFilePath.length() < 35 ? commonWordListFilePath : commonWordListFilePath.substring(0, 35) + "...";
             label_fileName_commonWordList.setText("File: " + fileNameToDisplay);
 
-            updateConsole("Loaded Word List File...\nPath: " + commonWordListFilePath);
+            updateConsole("Loaded Word List file...\nPath: " + commonWordListFilePath);
             commonWordListLoaded = true;
         }
     }//GEN-LAST:event_button_chooseFile_commonWordListActionPerformed
@@ -1317,16 +1318,14 @@ public class MainForm extends javax.swing.JFrame {
      * @param evt Action event for the button listener
      */
     private void button_chooseFile_PreTDListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseFile_PreTDListActionPerformed
-        //Create a file chooser object set to the last open directory
+        //Create JFileChooser dialogue
         JFileChooser fc = new JFileChooser();
-
         if (lastFolder.length() > 0) {
             fc.setCurrentDirectory(new java.io.File(lastFolder));
         }
+        fc.setDialogTitle("Select the file with the pre-TD responses");
 
-        fc.setDialogTitle("Select the file with the pre-talking drawing responses");
-
-        //If option selected, save the path, and update GUI
+        //Update the output folder file paths and allow the user to analyze the file and change the file name
         if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             preTDRFilePath = fc.getSelectedFile().toString();
             lastFolder = fc.getSelectedFile().getParent();
@@ -1335,30 +1334,43 @@ public class MainForm extends javax.swing.JFrame {
             label_fileName_PreTDList.setText("File: " + fileNameToDisplay);
 
             preTDRLoaded = true;
-            updateConsole("Loaded pre-TDR File...\nPath: " + preTDRFilePath);
+            updateConsole("Loaded pre-TDR file...\nPath: " + preTDRFilePath);
         }
     }//GEN-LAST:event_button_chooseFile_PreTDListActionPerformed
 
+    /**
+     * Action listener for when the pre-TD list delimiter is changed
+     * Disables the custom word list delimiter JComboBox when the custom
+     * delimiter option is not selected to prevent confusion
+     *
+     * @param evt
+     */
     private void combobox_inputType_PreTDListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_inputType_PreTDListActionPerformed
-        if (combobox_inputType_PreTDList.getSelectedIndex() == 2) {
+        //Note: Custom delimiter options is index 2
+        if (combobox_inputType_PreTDList.getSelectedIndex() == 2) 
             combobox_customDelimiter_PreTDList.setEnabled(true);
-        } else {
+        else 
             combobox_customDelimiter_PreTDList.setEnabled(false);
-        }
+        
     }//GEN-LAST:event_combobox_inputType_PreTDListActionPerformed
 
+     /**
+     * Button listener for the "Choose File" button for the academic word list
+     * Handles file dialogue interaction and updates GUI/file paths for common
+     * pre-TD list
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_chooseFile_academicWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseFile_academicWordListActionPerformed
 
-        //Create a file chooser object set to the last open directory
+        //Create JFileChooser dialogue
         JFileChooser fc = new JFileChooser();
-
         if (lastFolder.length() > 0) {
             fc.setCurrentDirectory(new java.io.File(lastFolder));
         }
-
         fc.setDialogTitle("Select the academic word list file");
 
-        //If option selected, save the path, and update GUI
+        //Update the output folder file paths and allow the user to analyze the file and change the file name
         if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             academicWordListFilePath = fc.getSelectedFile().toString();
             lastFolder = fc.getSelectedFile().getParent();
@@ -1366,30 +1378,43 @@ public class MainForm extends javax.swing.JFrame {
             String fileNameToDisplay = academicWordListFilePath.length() < 35 ? academicWordListFilePath : academicWordListFilePath.substring(0, 35) + "...";
             label_fileName_academicWordList.setText("File: " + fileNameToDisplay);
 
-            updateConsole("Loaded the academic word list File...\nPath: " + academicWordListFilePath);
+            updateConsole("Loaded the academic word list file...\nPath: " + academicWordListFilePath);
             academicWordListLoaded = true;
         }
     }//GEN-LAST:event_button_chooseFile_academicWordListActionPerformed
 
+     /**
+     * Action listener for when the academic word list delimiter is changed
+     * Disables the custom word list delimiter JComboBox when the custom
+     * delimiter option is not selected to prevent confusion
+     *
+     * @param evt
+     */
     private void combobox_inputType_academicWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_inputType_academicWordListActionPerformed
-        if (combobox_inputType_academicWordList.getSelectedIndex() == 2) {
+        //Note: Custom delimiter options is index 2
+        if (combobox_inputType_academicWordList.getSelectedIndex() == 2) 
             combobox_customDelimiter_academicWordList.setEnabled(true);
-        } else {
-            combobox_customDelimiter_academicWordList.setEnabled(false);
-        }
+        else 
+            combobox_customDelimiter_academicWordList.setEnabled(false);      
     }//GEN-LAST:event_combobox_inputType_academicWordListActionPerformed
 
+     /**
+     * Button listener for the "Choose File" button for the post-TD responses
+     * Handles file dialogue interaction and updates GUI/file paths for common
+     * pre-TD list
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_chooseFile_PostTDListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseFile_PostTDListActionPerformed
-        //Create a file chooser object set to the last open directory
+       
+        //Create JFileChooser dialogue
         JFileChooser fc = new JFileChooser();
-
         if (lastFolder.length() > 0) {
             fc.setCurrentDirectory(new java.io.File(lastFolder));
         }
-
         fc.setDialogTitle("Select the file with the post-talking drawing responses");
 
-        //If option selected, save the path, and update GUI
+        //Update the output folder file paths and allow the user to analyze the file and change the file name
         if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             postTDRFilePath = fc.getSelectedFile().toString();
             lastFolder = fc.getSelectedFile().getParent();
@@ -1398,16 +1423,24 @@ public class MainForm extends javax.swing.JFrame {
             label_fileName_PostTDList.setText("File: " + fileNameToDisplay);
 
             postTDRLoaded = true;
-            updateConsole("Loaded Post-TDR File...\nPath: " + postTDRFilePath);
+            updateConsole("Loaded Post-TDR file...\nPath: " + postTDRFilePath);
         }
     }//GEN-LAST:event_button_chooseFile_PostTDListActionPerformed
 
+    /**
+     * Action listener for when the post-TD list delimiter is changed
+     * Disables the custom word list delimiter JComboBox when the custom
+     * delimiter option is not selected to prevent confusion
+     *
+     * @param evt
+     */
     private void combobox_inputType_PostTDListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_inputType_PostTDListActionPerformed
-        if (combobox_inputType_PostTDList.getSelectedIndex() == 2) {
+               //Note: Custom delimiter options is index 2
+        if (combobox_inputType_PostTDList.getSelectedIndex() == 2) 
             combobox_customDelimiter_PostTDList.setEnabled(true);
-        } else {
+        else 
             combobox_customDelimiter_PostTDList.setEnabled(false);
-        }
+        
     }//GEN-LAST:event_combobox_inputType_PostTDListActionPerformed
 
     /**
@@ -1506,7 +1539,7 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     /**
-     *
+     * printList prints out all words in a word/response list if it is loaded
      * @param list ArrayList<String> of words to print
      */
     private void printList(ArrayList<String> list, boolean listLoaded) {
@@ -1525,7 +1558,7 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     /**
-     *
+     * This pushes text to the JTextAreaConsole
      * @param text This is the message to be pushed to the console
      */
     private void updateConsole(String text) {
