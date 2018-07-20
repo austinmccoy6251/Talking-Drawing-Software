@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
  */
 public class MainForm extends javax.swing.JFrame {
 
-    //Keep track of what's loaded
+    //Flags for whether or not each word/response list is loaded
     private boolean scienceWordListLoaded = false;
     private boolean academicWordListLoaded = false;
     private boolean commonWordListLoaded = false;
@@ -33,8 +33,8 @@ public class MainForm extends javax.swing.JFrame {
     private boolean blackWordListLoaded = false;
     private boolean preTDRLoaded = false;
     private boolean postTDRLoaded = false;
-    
-    //File Dialog Stuff
+
+    //File paths for output file and all word/response lists
     private String lastFolder = "";
     private String scienceWordListFilePath = "";
     private String academicWordListFilePath = "";
@@ -44,8 +44,8 @@ public class MainForm extends javax.swing.JFrame {
     private String preTDRFilePath = "";
     private String postTDRFilePath = "";
     private String outputFolderPath = "C:\\Users\\austi\\Documents";
-    
-    //Word Lists
+
+    //Word/response lists
     ArrayList<String> scienceWordList = new ArrayList<String>();
     ArrayList<String> questionWordList = new ArrayList<String>();
     ArrayList<String> blackWordList = new ArrayList<String>();
@@ -53,9 +53,8 @@ public class MainForm extends javax.swing.JFrame {
     ArrayList<String> commonWordList = new ArrayList<String>();
     ArrayList<String> preTDResponses = new ArrayList<String>();
     ArrayList<String> postTDResponses = new ArrayList<String>();
-    
-    
-    //Responses
+
+    //Result lists
     ArrayList<TDResult> preTDResults = new ArrayList<TDResult>();
     ArrayList<TDResult> postTDResults = new ArrayList<TDResult>();
 
@@ -658,21 +657,28 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Button listener for the "Choose File" button for the science word list
+     * Handles file dialogue interaction and updates GUI/file paths for science
+     * word list
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_chooseFile_scienceWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseFile_scienceWordListActionPerformed
-        //Create a file chooser object set to the last open directory
+
+        //Create JFileChooser dialogue
         JFileChooser fc = new JFileChooser();
-
-        if(lastFolder.length() > 0)
-        fc.setCurrentDirectory(new java.io.File(lastFolder));
-
+        if (lastFolder.length() > 0) {
+            fc.setCurrentDirectory(new java.io.File(lastFolder));
+        }
         fc.setDialogTitle("Select the science word list file");
 
-        //If option selected, save the path, and update GUI
-        if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+        //Update file path, file flag, and GUI if user chooses file
+        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             scienceWordListFilePath = fc.getSelectedFile().toString();
             lastFolder = fc.getSelectedFile().getParent();
 
-            String fileNameToDisplay = scienceWordListFilePath.length() < 35 ? scienceWordListFilePath : scienceWordListFilePath.substring(0,35) + "...";
+            String fileNameToDisplay = scienceWordListFilePath.length() < 35 ? scienceWordListFilePath : scienceWordListFilePath.substring(0, 35) + "...";
             label_fileName_scienceWordList.setText("File: " + fileNameToDisplay);
 
             updateConsole("Loaded Science Word List File...\nPath: " + scienceWordListFilePath);
@@ -680,29 +686,45 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_button_chooseFile_scienceWordListActionPerformed
 
+    /**
+     * Action listener for when the science word list delimiter is changed
+     * Disables the custom word list delimiter JComboBox when the custom
+     * delimiter option is not selected to prevent confusion
+     *
+     * @param evt
+     */
     private void combobox_inputType_scienceWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_inputType_scienceWordListActionPerformed
-         if(combobox_inputType_scienceWordList.getSelectedIndex() == 2)
-                combobox_customDelimiter_scienceWordList.setEnabled(true);
-        else
-                combobox_customDelimiter_scienceWordList.setEnabled(false);
+
+        //Note: Custom delimiter options is index 2
+        if (combobox_inputType_scienceWordList.getSelectedIndex() == 2) {
+            combobox_customDelimiter_scienceWordList.setEnabled(true);
+        } else {
+            combobox_customDelimiter_scienceWordList.setEnabled(false);
+        }
     }//GEN-LAST:event_combobox_inputType_scienceWordListActionPerformed
 
+    /**
+     * Button listener for the "Choose File" button for the question word list
+     * Handles file dialogue interaction and updates GUI/file paths for question
+     * word list
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_chooseFile_questionWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseFile_questionWordListActionPerformed
-        // TODO add your handling code here:
-        //Create a file chooser object set to the last open directory
+
+        //Create JFileChooser dialogue
         JFileChooser fc = new JFileChooser();
-
-        if(lastFolder.length() > 0)
-        fc.setCurrentDirectory(new java.io.File(lastFolder));
-
+        if (lastFolder.length() > 0) {
+            fc.setCurrentDirectory(new java.io.File(lastFolder));
+        }
         fc.setDialogTitle("Select the question list file");
 
-        //If option selected, save the path, and update GUI
-        if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+        //Update file path, file flag, and GUI if user chooses file
+        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             questionWordListFilePath = fc.getSelectedFile().toString();
             lastFolder = fc.getSelectedFile().getParent();
 
-            String fileNameToDisplay = questionWordListFilePath.length() < 35 ? questionWordListFilePath : questionWordListFilePath.substring(0,35) + "...";
+            String fileNameToDisplay = questionWordListFilePath.length() < 35 ? questionWordListFilePath : questionWordListFilePath.substring(0, 35) + "...";
             label_fileName_questionWordList.setText("File: " + fileNameToDisplay);
 
             updateConsole("Loaded Question List File...\nPath: " + questionWordListFilePath);
@@ -710,29 +732,44 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_button_chooseFile_questionWordListActionPerformed
 
+    /**
+     * Action listener for when the question list delimiter is changed Disables
+     * the custom word list delimiter JComboBox when the custom delimiter option
+     * is not selected to prevent confusion
+     *
+     * @param evt
+     */
     private void combobox_inputType_questionWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_inputType_questionWordListActionPerformed
-        if(combobox_inputType_questionWordList.getSelectedIndex() == 2)
-             combobox_customDelimiter_questionWordList.setEnabled(true);
-        else
+        //Note: Custom delimiter options is index 2
+        if (combobox_inputType_questionWordList.getSelectedIndex() == 2) {
+            combobox_customDelimiter_questionWordList.setEnabled(true);
+        } else {
             combobox_customDelimiter_questionWordList.setEnabled(false);
+        }
     }//GEN-LAST:event_combobox_inputType_questionWordListActionPerformed
 
+    /**
+     * Button listener for the "Choose File" button for the black word list
+     * Handles file dialogue interaction and updates GUI/file paths for black
+     * word list
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_chooseFile_blackWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseFile_blackWordListActionPerformed
-        // TODO add your handling code here:
-        //Create a file chooser object set to the last open directory
+
+        //Create JFileChooser dialogue
         JFileChooser fc = new JFileChooser();
-
-        if(lastFolder.length() > 0)
-        fc.setCurrentDirectory(new java.io.File(lastFolder));
-
+        if (lastFolder.length() > 0) {
+            fc.setCurrentDirectory(new java.io.File(lastFolder));
+        }
         fc.setDialogTitle("Select the black list file");
 
-        //If option selected, save the path, and update GUI
-        if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+        //Update file path, file flag, and GUI if user chooses file
+        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             blackWordListFilePath = fc.getSelectedFile().toString();
             lastFolder = fc.getSelectedFile().getParent();
 
-            String fileNameToDisplay = blackWordListFilePath.length() < 35 ? blackWordListFilePath : blackWordListFilePath.substring(0,35) + "...";
+            String fileNameToDisplay = blackWordListFilePath.length() < 35 ? blackWordListFilePath : blackWordListFilePath.substring(0, 35) + "...";
             label_fileName_blackWordList.setText("File: " + fileNameToDisplay);
 
             updateConsole("Loaded black list file...\nPath: " + blackWordListFilePath);
@@ -740,30 +777,45 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_button_chooseFile_blackWordListActionPerformed
 
+    /**
+     * Action listener for when the black word list delimiter is changed
+     * Disables the custom word list delimiter JComboBox when the custom
+     * delimiter option is not selected to prevent confusion
+     *
+     * @param evt
+     */
     private void combobox_inputType_blackWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_inputType_blackWordListActionPerformed
-        // TODO add your handling code here:
-        if(combobox_inputType_blackWordList.getSelectedIndex() == 2)
-        combobox_customDelimiter_blackWordList.setEnabled(true);
-        else
-        combobox_customDelimiter_blackWordList.setEnabled(false);
+        //Note: Custom delimiter options is index 2
+        if (combobox_inputType_blackWordList.getSelectedIndex() == 2) {
+            combobox_customDelimiter_blackWordList.setEnabled(true);
+        } else {
+            combobox_customDelimiter_blackWordList.setEnabled(false);
+        }
 
     }//GEN-LAST:event_combobox_inputType_blackWordListActionPerformed
 
+    /**
+     * Button listener for the "Choose File" button for the common word list
+     * Handles file dialogue interaction and updates GUI/file paths for common
+     * word list
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_chooseFile_commonWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseFile_commonWordListActionPerformed
-        //Create a file chooser object set to the last open directory
+
+        //Create JFileChooser dialogue
         JFileChooser fc = new JFileChooser();
+        if (lastFolder.length() > 0) {
+            fc.setCurrentDirectory(new java.io.File(lastFolder));
+        }
+        fc.setDialogTitle("Select the black list file");
 
-        if(lastFolder.length() > 0)
-             fc.setCurrentDirectory(new java.io.File(lastFolder));
-
-        fc.setDialogTitle("Select the common word list file");
-
-        //If option selected, save the path, and update GUI
-        if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+        //Update file path, file flag, and GUI if user chooses file
+        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             commonWordListFilePath = fc.getSelectedFile().toString();
             lastFolder = fc.getSelectedFile().getParent();
 
-            String fileNameToDisplay = commonWordListFilePath.length() < 35 ? commonWordListFilePath : commonWordListFilePath.substring(0,35) + "...";
+            String fileNameToDisplay = commonWordListFilePath.length() < 35 ? commonWordListFilePath : commonWordListFilePath.substring(0, 35) + "...";
             label_fileName_commonWordList.setText("File: " + fileNameToDisplay);
 
             updateConsole("Loaded Word List File...\nPath: " + commonWordListFilePath);
@@ -771,24 +823,43 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_button_chooseFile_commonWordListActionPerformed
 
+    /**
+     * Action listener for when the black word list delimiter is changed
+     * Disables the custom word list delimiter JComboBox when the custom
+     * delimiter option is not selected to prevent confusion
+     *
+     * @param evt
+     */
     private void combobox_inputType_commonWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_inputType_commonWordListActionPerformed
-        // TODO add your handling code here:
-        if(combobox_inputType_commonWordList.getSelectedIndex() == 2)
-        combobox_customDelimiter_commonWordList.setEnabled(true);
-        else
-        combobox_customDelimiter_commonWordList.setEnabled(false);
+        //Note: Custom delimiter options is index 2
+        if (combobox_inputType_commonWordList.getSelectedIndex() == 2) {
+            combobox_customDelimiter_commonWordList.setEnabled(true);
+        } else {
+            combobox_customDelimiter_commonWordList.setEnabled(false);
+        }
     }//GEN-LAST:event_combobox_inputType_commonWordListActionPerformed
 
+    /**
+     * Button listener for the "Choose Output Folder" button Handles file
+     * dialogue and updates GUI/file paths when the user selects the folder
+     * where the .csv output file should be generated This also enables the
+     * Analysis Button and File Name JTextBox, as they are previously disabled
+     * to make sure the user chooses an output location
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_chooseOutputFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseOutputFolderActionPerformed
-        // TODO add your handling code here:
+
+        //Create JFileChooser dialogue
         JFileChooser fc = new JFileChooser();
-        if (lastFolder != null) {
+        if (lastFolder.length() > 0) {
             fc.setCurrentDirectory(new java.io.File(lastFolder));
         }
-        fc.setDialogTitle("Select the Input Data Folder");
+        fc.setDialogTitle("Select the input data folder");
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-        if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+        //Update the output folder file paths and allow the user to analyze the file and change the file name
+        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             outputFolderPath = fc.getSelectedFile().getAbsolutePath();
             lastFolder = fc.getSelectedFile().getAbsolutePath();
 
@@ -797,16 +868,25 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_button_chooseOutputFolderActionPerformed
 
+    /**
+     * Button listener for the "Preview TD Responses" button This parses through
+     * the Pre and Post TD Responses, and it prints the responses to the console
+     * This button is used for verification to ensure that it is correctly
+     * parsing input responses Both TD response lists do not need to be loaded
+     * for this to work
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_previewTDResponsesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_previewTDResponsesActionPerformed
-        
-        //Load responses
-        preTDResponses.clear();
-        loadList(preTDResponses, combobox_inputType_PreTDList.getSelectedIndex(),preTDRFilePath,combobox_customDelimiter_PreTDList.getSelectedItem().toString());
-        
-        postTDResponses.clear();
-        loadList(postTDResponses, combobox_inputType_PostTDList.getSelectedIndex(),postTDRFilePath,combobox_customDelimiter_PostTDList.getSelectedItem().toString());
 
-        //Print list
+        //Clear current responses and reload them
+        preTDResponses.clear();
+        loadList(preTDResponses, combobox_inputType_PreTDList.getSelectedIndex(), preTDRFilePath, combobox_customDelimiter_PreTDList.getSelectedItem().toString());
+
+        postTDResponses.clear();
+        loadList(postTDResponses, combobox_inputType_PostTDList.getSelectedIndex(), postTDRFilePath, combobox_customDelimiter_PostTDList.getSelectedItem().toString());
+
+        //Print lists of responses to console
         updateConsole("Pre-TD Responses");
         printList(preTDResponses, preTDRLoaded);
         updateConsole("Post-TD Responses");
@@ -814,48 +894,69 @@ public class MainForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_button_previewTDResponsesActionPerformed
 
+    /**
+     * Button listener for the "Preview Word Lists" button This parses through
+     * all the Word Lists, and it prints the responses to the console This
+     * button is used for verification to ensure that it is correctly parsing
+     * input word lists Not all word lists must be loaded for this to work
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_previewWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_previewWordListActionPerformed
 
-    
         //Clear word lists
         scienceWordList.clear();
         academicWordList.clear();
         commonWordList.clear();
         questionWordList.clear();
         blackWordList.clear();
-        
-        //Load Word Lists
-        loadList(scienceWordList, combobox_inputType_scienceWordList.getSelectedIndex(),scienceWordListFilePath,combobox_customDelimiter_scienceWordList.getSelectedItem().toString());
-        loadList(academicWordList, combobox_inputType_academicWordList.getSelectedIndex(),academicWordListFilePath,combobox_customDelimiter_academicWordList.getSelectedItem().toString());
-        loadList(commonWordList, combobox_inputType_commonWordList.getSelectedIndex(),commonWordListFilePath,combobox_customDelimiter_commonWordList.getSelectedItem().toString());
-        loadList(questionWordList, combobox_inputType_questionWordList.getSelectedIndex(),questionWordListFilePath,combobox_customDelimiter_questionWordList.getSelectedItem().toString());
-        loadList(blackWordList, combobox_inputType_blackWordList.getSelectedIndex(),blackWordListFilePath,combobox_customDelimiter_blackWordList.getSelectedItem().toString());
 
-        
+        //Load Word Lists
+        loadList(scienceWordList, combobox_inputType_scienceWordList.getSelectedIndex(), scienceWordListFilePath, combobox_customDelimiter_scienceWordList.getSelectedItem().toString());
+        loadList(academicWordList, combobox_inputType_academicWordList.getSelectedIndex(), academicWordListFilePath, combobox_customDelimiter_academicWordList.getSelectedItem().toString());
+        loadList(commonWordList, combobox_inputType_commonWordList.getSelectedIndex(), commonWordListFilePath, combobox_customDelimiter_commonWordList.getSelectedItem().toString());
+        loadList(questionWordList, combobox_inputType_questionWordList.getSelectedIndex(), questionWordListFilePath, combobox_customDelimiter_questionWordList.getSelectedItem().toString());
+        loadList(blackWordList, combobox_inputType_blackWordList.getSelectedIndex(), blackWordListFilePath, combobox_customDelimiter_blackWordList.getSelectedItem().toString());
+
         //Update Console
         updateConsole("\nScience Word List:");
         printList(scienceWordList, scienceWordListLoaded);
-            
+
         updateConsole("\nAcademic Word List:");
         printList(academicWordList, academicWordListLoaded);
-        
+
         updateConsole("\nCommon Word List:");
         printList(commonWordList, commonWordListLoaded);
-        
+
         updateConsole("\nBlack Word List:");
         printList(blackWordList, blackWordListLoaded);
-        
+
         updateConsole("\nQuestion Word List:");
         printList(questionWordList, questionWordListLoaded);
 
     }//GEN-LAST:event_button_previewWordListActionPerformed
 
+    /**
+     * Button listener for the "Analyze" button This performs all of the
+     * analysis for the software First, it reads through all the pre-TD prompts
+     * and records the frequency of all pieces of language that are not common
+     * language, deliberately excluded, or in the question Second, it reads
+     * through all the post-TD prompts and records the frequency of all pieces
+     * of language that are not common language, deliberately excluded, or in
+     * the question Then, it prints out all the scientific language side-by-side
+     * with the pre-TD frequency, post-TD frequency, and delta frequency Then,
+     * it prints out all the academic language side-by-side with the pre-TD
+     * frequency, post-TD frequency, and delta frequency Then, it out total
+     * statistics on words used and changed in words used for science language,
+     * academic language, and total Finally, it prints out a report on all other
+     * words used and their relative frequencies
+     *
+     * @param evt Action event for the button listener
+     */
     private void button_analyzeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_analyzeActionPerformed
 
-        
-        
-        //Check to make sure files loaded and at least one td file
-        if((preTDRLoaded || postTDRLoaded) && scienceWordListLoaded && academicWordListLoaded && blackWordListLoaded && commonWordListLoaded && questionWordListLoaded){
+        //Check to make sure all word lists and responses are loaded
+        if (preTDRLoaded && postTDRLoaded && scienceWordListLoaded && academicWordListLoaded && blackWordListLoaded && commonWordListLoaded && questionWordListLoaded) {
 
             //Clear lists
             preTDResponses.clear();
@@ -864,196 +965,205 @@ public class MainForm extends javax.swing.JFrame {
             blackWordList.clear();
             questionWordList.clear();
             commonWordList.clear();
-          
+
             //Load Lists
-            loadList(preTDResponses, combobox_inputType_PreTDList.getSelectedIndex(),preTDRFilePath,combobox_customDelimiter_PreTDList.getSelectedItem().toString());
-            loadList(postTDResponses, combobox_inputType_PostTDList.getSelectedIndex(),postTDRFilePath,combobox_customDelimiter_PostTDList.getSelectedItem().toString());
-            loadList(scienceWordList, combobox_inputType_scienceWordList.getSelectedIndex(),scienceWordListFilePath,combobox_customDelimiter_scienceWordList.getSelectedItem().toString());
-            loadList(academicWordList, combobox_inputType_academicWordList.getSelectedIndex(),academicWordListFilePath,combobox_customDelimiter_academicWordList.getSelectedItem().toString());
-            loadList(blackWordList, combobox_inputType_blackWordList.getSelectedIndex(),blackWordListFilePath,combobox_customDelimiter_blackWordList.getSelectedItem().toString());
-            loadList(questionWordList, combobox_inputType_questionWordList.getSelectedIndex(),questionWordListFilePath,combobox_customDelimiter_questionWordList.getSelectedItem().toString());
-            loadList(commonWordList, combobox_inputType_commonWordList.getSelectedIndex(),commonWordListFilePath,combobox_customDelimiter_commonWordList.getSelectedItem().toString());
-            
-            
-            //Analyze Lists
+            loadList(preTDResponses, combobox_inputType_PreTDList.getSelectedIndex(), preTDRFilePath, combobox_customDelimiter_PreTDList.getSelectedItem().toString());
+            loadList(postTDResponses, combobox_inputType_PostTDList.getSelectedIndex(), postTDRFilePath, combobox_customDelimiter_PostTDList.getSelectedItem().toString());
+            loadList(scienceWordList, combobox_inputType_scienceWordList.getSelectedIndex(), scienceWordListFilePath, combobox_customDelimiter_scienceWordList.getSelectedItem().toString());
+            loadList(academicWordList, combobox_inputType_academicWordList.getSelectedIndex(), academicWordListFilePath, combobox_customDelimiter_academicWordList.getSelectedItem().toString());
+            loadList(blackWordList, combobox_inputType_blackWordList.getSelectedIndex(), blackWordListFilePath, combobox_customDelimiter_blackWordList.getSelectedItem().toString());
+            loadList(questionWordList, combobox_inputType_questionWordList.getSelectedIndex(), questionWordListFilePath, combobox_customDelimiter_questionWordList.getSelectedItem().toString());
+            loadList(commonWordList, combobox_inputType_commonWordList.getSelectedIndex(), commonWordListFilePath, combobox_customDelimiter_commonWordList.getSelectedItem().toString());
+
+            //Read in all the pre-TD responses
             int TDIndex = 0;
-            if(preTDRLoaded){
-                for(String response : preTDResponses){
+            for (String response : preTDResponses) {
 
-                    //Create response
-                    TDResult result = new TDResult(TDIndex++);
+                //Create response object
+                TDResult result = new TDResult(TDIndex++);
 
-                    //Split Response
-                    String[] responseWords = response.split(" ");
+                //Split Response into component words
+                String[] responseWords = response.split(" ");
 
-                    //Iterate through words in response
-                    for(String word : responseWords){
+                //Iterate through words in each response
+                for (String word : responseWords) {
 
-                        //Remove punctuation
-                        char[] wordCharacters = word.toCharArray();
-                        String wordNoPunctuation = "";
-                        for(int charIndex = 0; charIndex < wordCharacters.length; charIndex++)
-                            if(wordCharacters[charIndex] == '\'' || Character.isAlphabetic(wordCharacters[charIndex]))
-                                wordNoPunctuation += wordCharacters[charIndex];
-                        word = wordNoPunctuation;
+                    //Remove punctuation
+                    char[] wordCharacters = word.toCharArray();
+                    String wordNoPunctuation = "";
+                    for (int charIndex = 0; charIndex < wordCharacters.length; charIndex++) 
+                        if (wordCharacters[charIndex] == '\'' || Character.isAlphabetic(wordCharacters[charIndex])) 
+                            wordNoPunctuation += wordCharacters[charIndex];
+                                           
+                    word = wordNoPunctuation;
 
-                        //Make lower case and trim
-                        word = word.toLowerCase().trim();
+                    //Cleanup word
+                    word = word.toLowerCase().trim();
 
-                        //Skip if it was just punctuation
-                        if(word.length() == 0)
-                            continue;
+                    //Skip if it was just punctuation
+                    if (word.length() == 0) {
+                        continue;
+                    }
 
-                        //Filter if word is common word and filter enabled
-                        if(commonWordList.contains(word) && checkbox_commonWordFilter.isSelected())
-                            continue;
+                    //Filter if word is common word and filter enabled
+                    if (commonWordList.contains(word) && checkbox_commonWordFilter.isSelected()) {
+                        continue;
+                    }
 
-                        //Filter if blacklisted and filter enabled
-                        if(blackWordList.contains(word) && checkbox_blackListFilter.isSelected())
-                            continue;
+                    //Filter if blacklisted and filter enabled
+                    if (blackWordList.contains(word) && checkbox_blackListFilter.isSelected()) {
+                        continue;
+                    }
 
-                        //Filter if in question and filter enabled
-                        if(questionWordList.contains(word) && checkbox_questionListFilter.isSelected())
-                            continue;
+                    //Filter if in question and filter enabled
+                    if (questionWordList.contains(word) && checkbox_questionListFilter.isSelected()) {
+                        continue;
+                    }
 
-                        //Add to list
-                        result.updateWord(word);
+                    //Add to list
+                    result.updateWord(word);
 
-                    }         
-
-                     //Save result
-                     preTDResults.add(result);
                 }
+
+                //Save result
+                preTDResults.add(result);
             }
 
+            //Read in all the post-TD responses
             TDIndex = 0;
-            if(postTDRLoaded){
-                for(String response : postTDResponses){
+            for (String response : postTDResponses) {
 
-                    //Create response
-                    TDResult result = new TDResult(TDIndex++);
+                //Create response
+                TDResult result = new TDResult(TDIndex++);
 
-                    //Split Response
-                    String[] responseWords = response.split(" ");
+                //Split Response
+                String[] responseWords = response.split(" ");
 
-                    //Iterate through words in response
-                    for(String word : responseWords){
+                //Iterate through words in each response
+                for (String word : responseWords) {
 
-                        //Remove punctuation
-                        char[] wordCharacters = word.toCharArray();
-                        String wordNoPunctuation = "";
-                        for(int charIndex = 0; charIndex < wordCharacters.length; charIndex++)
-                            if(wordCharacters[charIndex] == '\'' || Character.isAlphabetic(wordCharacters[charIndex]))
-                                wordNoPunctuation += wordCharacters[charIndex];
-                        word = wordNoPunctuation;
+                    //Remove punctuation
+                    char[] wordCharacters = word.toCharArray();
+                    String wordNoPunctuation = "";
+                    for (int charIndex = 0; charIndex < wordCharacters.length; charIndex++) 
+                        if (wordCharacters[charIndex] == '\'' || Character.isAlphabetic(wordCharacters[charIndex])) 
+                            wordNoPunctuation += wordCharacters[charIndex];
+                                    
+                    word = wordNoPunctuation;
 
-                        //Make lower case and trim
-                        word = word.toLowerCase().trim();
+                    //Cleanup word
+                    word = word.toLowerCase().trim();
 
-                        //Skip if it was just punctuation
-                        if(word.length() == 0)
-                            continue;
+                    //Skip if it was just punctuation
+                    if (word.length() == 0) {
+                        continue;
+                    }
 
-                        //Filter if word is common word and filter enabled
-                        if(commonWordList.contains(word) && checkbox_commonWordFilter.isSelected())
-                            continue;
+                    //Filter if word is common word and filter enabled
+                    if (commonWordList.contains(word) && checkbox_commonWordFilter.isSelected()) {
+                        continue;
+                    }
 
-                        //Filter if blacklisted and filter enabled
-                        if(blackWordList.contains(word) && checkbox_blackListFilter.isSelected())
-                            continue;
+                    //Filter if blacklisted and filter enabled
+                    if (blackWordList.contains(word) && checkbox_blackListFilter.isSelected()) {
+                        continue;
+                    }
 
-                        //Filter if in question and filter enabled
-                        if(questionWordList.contains(word) && checkbox_questionListFilter.isSelected())
-                            continue;
+                    //Filter if in question and filter enabled
+                    if (questionWordList.contains(word) && checkbox_questionListFilter.isSelected()) {
+                        continue;
+                    }
 
-                        //Add to list
-                        result.updateWord(word);
+                    //Add to list
+                    result.updateWord(word);
 
-                    }         
-
-                     //Save result
-                     postTDResults.add(result);
                 }
+
+                //Save result
+                postTDResults.add(result);
             }
-            
-            //Frequency Lists
+
+            //Declare Frequency Lists
             int[] frequency_preScienceWordList = new int[scienceWordList.size()];
             int[] frequency_preAcademicWordList = new int[academicWordList.size()];
             Map<String, Integer> frequency_preAllWords = new HashMap();
-            
+
             int[] frequency_postScienceWordList = new int[scienceWordList.size()];
             int[] frequency_postAcademicWordList = new int[academicWordList.size()];
             Map<String, Integer> frequency_postAllWords = new HashMap();
-            
+
             //Initialize Frequency Lists
-            for(int index = 0; index < frequency_preScienceWordList.length; index++)
+            for (int index = 0; index < frequency_preScienceWordList.length; index++) {
                 frequency_preScienceWordList[index] = 0;
-            for(int index = 0; index < frequency_preAcademicWordList.length; index++)
+            }
+            for (int index = 0; index < frequency_preAcademicWordList.length; index++) {
                 frequency_preAcademicWordList[index] = 0;
-             for(int index = 0; index < frequency_postScienceWordList.length; index++)
+            }
+            for (int index = 0; index < frequency_postScienceWordList.length; index++) {
                 frequency_postScienceWordList[index] = 0;
-            for(int index = 0; index < frequency_postAcademicWordList.length; index++)
+            }
+            for (int index = 0; index < frequency_postAcademicWordList.length; index++) {
                 frequency_postAcademicWordList[index] = 0;
-            
-            //Determine final lists for Pre-Talking Drawings
-            if(preTDRLoaded){
-                for(TDResult result : preTDResults){
+            }
 
-                    //Fill science list
-                    for(int scienceWordIndex = 0; scienceWordIndex < scienceWordList.size(); scienceWordIndex++){
+            //Collect academic, science, and other frequency lists from the parsed pre-TD 
+            for (TDResult result : preTDResults) {
 
-                        if(result.getFrequencyMap().containsKey(scienceWordList.get(scienceWordIndex)))
-                             frequency_preScienceWordList[scienceWordIndex] += result.getFrequencyMap().get(scienceWordList.get(scienceWordIndex));
+                //Load science language
+                for (int scienceWordIndex = 0; scienceWordIndex < scienceWordList.size(); scienceWordIndex++) {
+                    if (result.getFrequencyMap().containsKey(scienceWordList.get(scienceWordIndex))) {
+                        frequency_preScienceWordList[scienceWordIndex] += result.getFrequencyMap().get(scienceWordList.get(scienceWordIndex));
                     }
+                }
 
-                    //Fill academic list
-                    for(int academicWordIndex = 0; academicWordIndex < academicWordList.size(); academicWordIndex++){
+                //Load academic language
+                for (int academicWordIndex = 0; academicWordIndex < academicWordList.size(); academicWordIndex++) {
 
-                        if(result.getFrequencyMap().containsKey(academicWordList.get(academicWordIndex)))
-                             frequency_preAcademicWordList[academicWordIndex] += result.getFrequencyMap().get(academicWordList.get(academicWordIndex));
+                    if (result.getFrequencyMap().containsKey(academicWordList.get(academicWordIndex))) {
+                        frequency_preAcademicWordList[academicWordIndex] += result.getFrequencyMap().get(academicWordList.get(academicWordIndex));
                     }
+                }
 
-                    //Iterate through map and add entries to map
-                    for (Map.Entry<String, Integer> entry : result.getFrequencyMap().entrySet()){
-                        if(frequency_preAllWords.containsKey(entry.getKey()))
-                            frequency_preAllWords.put(entry.getKey(), frequency_preAllWords.get(entry.getKey()) + 1);
-                        else
-                            frequency_preAllWords.put(entry.getKey(),1);
+                //Load all other pieces of language
+                for (Map.Entry<String, Integer> entry : result.getFrequencyMap().entrySet()) {
+                    if (frequency_preAllWords.containsKey(entry.getKey())) {
+                        frequency_preAllWords.put(entry.getKey(), frequency_preAllWords.get(entry.getKey()) + 1);
+                    } else {
+                        frequency_preAllWords.put(entry.getKey(), 1);
                     }
                 }
             }
-            
-             //Determine final lists for Post-Talking Drawings
-            if(postTDRLoaded){
-                for(TDResult result : postTDResults){
 
-                    //Fill science list
-                    for(int scienceWordIndex = 0; scienceWordIndex < scienceWordList.size(); scienceWordIndex++){
+            //Collect academic, science, and other frequency lists from the parsed post-TD 
+            for (TDResult result : postTDResults) {
 
-                        if(result.getFrequencyMap().containsKey(scienceWordList.get(scienceWordIndex)))
-                             frequency_postScienceWordList[scienceWordIndex] += result.getFrequencyMap().get(scienceWordList.get(scienceWordIndex));
+                //Load science language
+                for (int scienceWordIndex = 0; scienceWordIndex < scienceWordList.size(); scienceWordIndex++) {
+                    if (result.getFrequencyMap().containsKey(scienceWordList.get(scienceWordIndex))) {
+                        frequency_postScienceWordList[scienceWordIndex] += result.getFrequencyMap().get(scienceWordList.get(scienceWordIndex));
                     }
+                }
 
-                    //Fill academic list
-                    for(int academicWordIndex = 0; academicWordIndex < academicWordList.size(); academicWordIndex++){
-
-                        if(result.getFrequencyMap().containsKey(academicWordList.get(academicWordIndex)))
-                             frequency_postAcademicWordList[academicWordIndex] += result.getFrequencyMap().get(academicWordList.get(academicWordIndex));
+                //Load academic language
+                for (int academicWordIndex = 0; academicWordIndex < academicWordList.size(); academicWordIndex++) {
+                    if (result.getFrequencyMap().containsKey(academicWordList.get(academicWordIndex))) {
+                        frequency_postAcademicWordList[academicWordIndex] += result.getFrequencyMap().get(academicWordList.get(academicWordIndex));
                     }
+                }
 
-                    //Iterate through map and add entries to map
-                    for (Map.Entry<String, Integer> entry : result.getFrequencyMap().entrySet()){
-                        if(frequency_postAllWords.containsKey(entry.getKey()))
-                            frequency_postAllWords.put(entry.getKey(), frequency_postAllWords.get(entry.getKey()) + 1);
-                        else
-                            frequency_postAllWords.put(entry.getKey(),1);
+                //Load all other pieces of language
+                for (Map.Entry<String, Integer> entry : result.getFrequencyMap().entrySet()) {
+                    if (frequency_postAllWords.containsKey(entry.getKey())) {
+                        frequency_postAllWords.put(entry.getKey(), frequency_postAllWords.get(entry.getKey()) + 1);
+                    } else {
+                        frequency_postAllWords.put(entry.getKey(), 1);
                     }
                 }
             }
-           
-            //Create File Path
+
+            //Concatenate File Path
             String filePath = outputFolderPath + "\\" + textbox_outputFile.getText() + ".csv";
-            
+
             //Create File Writer and Buffered Writer
             FileWriter fileWriter = null;
             try {
@@ -1062,164 +1172,165 @@ public class MainForm extends javax.swing.JFrame {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-           
+
             //Write Key
             try {
                 bufferedWriter.write("Word,Pre-TD Word Frequency, Post-TD Word Frequency, Delta Word Frequency\n\n");
             } catch (IOException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-       
-            
-            try {   
+
+            try {
                 //Write Science Language Header
                 bufferedWriter.write("\nScience Language\n");
             } catch (IOException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             //Write Science Language
             int scienceWordCounterPre = 0;
             int scienceWordCounterPost = 0;
-            
-            for(int scienceWord = 0; scienceWord < scienceWordList.size(); scienceWord++)
+
+            for (int scienceWord = 0; scienceWord < scienceWordList.size(); scienceWord++) {
                 try {
                     scienceWordCounterPre += frequency_preScienceWordList[scienceWord];
                     scienceWordCounterPost += frequency_postScienceWordList[scienceWord];
-                    
-                    bufferedWriter.write(scienceWordList.get(scienceWord) + "," + frequency_preScienceWordList[scienceWord] + "," + frequency_postScienceWordList[scienceWord] + "," + (frequency_postScienceWordList[scienceWord] -  frequency_preScienceWordList[scienceWord]) + "\n");
+
+                    bufferedWriter.write(scienceWordList.get(scienceWord) + "," + frequency_preScienceWordList[scienceWord] + "," + frequency_postScienceWordList[scienceWord] + "," + (frequency_postScienceWordList[scienceWord] - frequency_preScienceWordList[scienceWord]) + "\n");
                 } catch (IOException ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                     
+            }
+
             try {
                 //Write Academic Language Header
                 bufferedWriter.write("\n\nAcademic Language\n");
             } catch (IOException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-           //Write Academic Language
+
+            //Write Academic Language
             int academicWordCounterPre = 0;
             int academicWordCounterPost = 0;
-            for(int academicWord = 0; academicWord < academicWordList.size(); academicWord++)
+            for (int academicWord = 0; academicWord < academicWordList.size(); academicWord++) {
                 try {
                     academicWordCounterPre += frequency_preAcademicWordList[academicWord];
                     academicWordCounterPost += frequency_postAcademicWordList[academicWord];
-                   
+
                     bufferedWriter.write(academicWordList.get(academicWord) + "," + frequency_preAcademicWordList[academicWord] + "," + frequency_postAcademicWordList[academicWord] + "," + (frequency_postAcademicWordList[academicWord] - frequency_preAcademicWordList[academicWord]) + "\n");
                 } catch (IOException ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            
+            }
+
             //Results for Academic Total
-             try {   
+            try {
                 //Write Academic Language Header
                 bufferedWriter.write("\n\nTotal Academic Language Pre-TD (words): " + academicWordCounterPre + "\n");
                 bufferedWriter.write("Total Academic Language Post-TD (words): " + academicWordCounterPost + "\n");
-                bufferedWriter.write("Change in Academic Language (words): " + (academicWordCounterPost-academicWordCounterPre) + "\n");
-                
-                double percentChange = 100 * (double)(academicWordCounterPost-academicWordCounterPre)/academicWordCounterPre;
+                bufferedWriter.write("Change in Academic Language (words): " + (academicWordCounterPost - academicWordCounterPre) + "\n");
+
+                double percentChange = 100 * (double) (academicWordCounterPost - academicWordCounterPre) / academicWordCounterPre;
                 percentChange *= 100;
                 percentChange = Math.floor(percentChange);
                 percentChange /= 100;
-                
-                bufferedWriter.write("Change in Academic Language (%): " + percentChange + "%\n");
 
+                bufferedWriter.write("Change in Academic Language (%): " + percentChange + "%\n");
 
             } catch (IOException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-               
+
             //Results for Science Total
-             try {   
+            try {
                 //Write Science Language Header
                 bufferedWriter.write("\n\nTotal Science Language Pre-TD (words): " + scienceWordCounterPre + "\n");
                 bufferedWriter.write("Total Science Language Post-TD (words): " + scienceWordCounterPost + "\n");
-                bufferedWriter.write("Change in Science Language (words): " + (scienceWordCounterPost-scienceWordCounterPre) + "\n");
-                
-                double percentChange = 100 * (double)(scienceWordCounterPost-scienceWordCounterPre)/scienceWordCounterPre;
+                bufferedWriter.write("Change in Science Language (words): " + (scienceWordCounterPost - scienceWordCounterPre) + "\n");
+
+                double percentChange = 100 * (double) (scienceWordCounterPost - scienceWordCounterPre) / scienceWordCounterPre;
                 percentChange *= 100;
                 percentChange = Math.floor(percentChange);
                 percentChange /= 100;
                 System.out.println(percentChange);
                 bufferedWriter.write("Change in Science Language (%): " + percentChange + "%\n");
 
-
             } catch (IOException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-             
+
             //Report Totals
             try {
                 bufferedWriter.write("\n\nTotal Language Pre-TD (words): " + (academicWordCounterPre + scienceWordCounterPre) + "\n");
                 bufferedWriter.write("Total Language Post-TD (words): " + (academicWordCounterPost + scienceWordCounterPost) + "\n");
-                bufferedWriter.write("Change in Total Language (words): " + ((academicWordCounterPost + scienceWordCounterPost)-(academicWordCounterPre + scienceWordCounterPre)) + "\n");
-                
-                double percentChange = 100 * (double)(((academicWordCounterPost + scienceWordCounterPost)-(academicWordCounterPre + scienceWordCounterPre)))/(academicWordCounterPre + scienceWordCounterPre);
+                bufferedWriter.write("Change in Total Language (words): " + ((academicWordCounterPost + scienceWordCounterPost) - (academicWordCounterPre + scienceWordCounterPre)) + "\n");
+
+                double percentChange = 100 * (double) (((academicWordCounterPost + scienceWordCounterPost) - (academicWordCounterPre + scienceWordCounterPre))) / (academicWordCounterPre + scienceWordCounterPre);
                 percentChange *= 100;
                 percentChange = Math.floor(percentChange);
                 percentChange /= 100;
-                
+
                 bufferedWriter.write("Change in Total Language (%): " + percentChange + "%\n\n\n");
 
             } catch (IOException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-            } 
-             
+            }
+
             //Write Key
             try {
                 bufferedWriter.write("\n\nWord Type,Word,Word Frequency\n\n");
             } catch (IOException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             try {
                 //Write Full List Header
                 bufferedWriter.write("\nPre-TD All Words Used\n");
             } catch (IOException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-                       
+
             //Write Full List
-            for (Map.Entry<String, Integer> entry : frequency_preAllWords.entrySet())
+            for (Map.Entry<String, Integer> entry : frequency_preAllWords.entrySet()) {
                 try {
                     bufferedWriter.write("All Language," + entry.getKey() + "," + entry.getValue() + "\n");
                 } catch (IOException ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            
+            }
+
             try {
                 //Write Full List Header
                 bufferedWriter.write("\nPost-TD All Words Used\n");
             } catch (IOException ex) {
                 Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             //Write Full List
-            for (Map.Entry<String, Integer> entry : frequency_postAllWords.entrySet())
+            for (Map.Entry<String, Integer> entry : frequency_postAllWords.entrySet()) {
                 try {
                     bufferedWriter.write("All Language," + entry.getKey() + "," + entry.getValue() + "\n");
                 } catch (IOException ex) {
                     Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
 
             //Close Readers
-            if (bufferedWriter != null)
-                 try {
-                     bufferedWriter.close();
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+            if (bufferedWriter != null) {
+                try {
+                    bufferedWriter.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            if (fileWriter != null)
+            if (fileWriter != null) {
                 try {
                     fileWriter.close();
-            } catch (IOException ex) {
-                Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            
+
             //Reset Word List & Response list
             preTDResponses.clear();
             preTDResults.clear();
@@ -1263,7 +1374,7 @@ public class MainForm extends javax.swing.JFrame {
         blackWordListFilePath = "";
         commonWordListFilePath = "";
         questionWordListFilePath = "";
-        
+
         //Reset Word List & Response list
         preTDResponses.clear();
         preTDResults.clear();
@@ -1275,7 +1386,6 @@ public class MainForm extends javax.swing.JFrame {
         blackWordList.clear();
         questionWordList.clear();
 
-
         //Reset buttons
         outputFolderPath = "";
         textbox_outputFile.setEnabled(false);
@@ -1286,17 +1396,18 @@ public class MainForm extends javax.swing.JFrame {
         //Create a file chooser object set to the last open directory
         JFileChooser fc = new JFileChooser();
 
-        if(lastFolder.length() > 0)
-        fc.setCurrentDirectory(new java.io.File(lastFolder));
+        if (lastFolder.length() > 0) {
+            fc.setCurrentDirectory(new java.io.File(lastFolder));
+        }
 
         fc.setDialogTitle("Select the file with the pre-talking drawing responses");
 
         //If option selected, save the path, and update GUI
-        if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             preTDRFilePath = fc.getSelectedFile().toString();
             lastFolder = fc.getSelectedFile().getParent();
 
-            String fileNameToDisplay = preTDRFilePath.length() < 35 ? preTDRFilePath : preTDRFilePath.substring(0,35) + "...";
+            String fileNameToDisplay = preTDRFilePath.length() < 35 ? preTDRFilePath : preTDRFilePath.substring(0, 35) + "...";
             label_fileName_PreTDList.setText("File: " + fileNameToDisplay);
 
             preTDRLoaded = true;
@@ -1305,10 +1416,11 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_button_chooseFile_PreTDListActionPerformed
 
     private void combobox_inputType_PreTDListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_inputType_PreTDListActionPerformed
-        if(combobox_inputType_PreTDList.getSelectedIndex() == 2)
+        if (combobox_inputType_PreTDList.getSelectedIndex() == 2) {
             combobox_customDelimiter_PreTDList.setEnabled(true);
-        else
-             combobox_customDelimiter_PreTDList.setEnabled(false);
+        } else {
+            combobox_customDelimiter_PreTDList.setEnabled(false);
+        }
     }//GEN-LAST:event_combobox_inputType_PreTDListActionPerformed
 
     private void button_chooseFile_academicWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseFile_academicWordListActionPerformed
@@ -1316,17 +1428,18 @@ public class MainForm extends javax.swing.JFrame {
         //Create a file chooser object set to the last open directory
         JFileChooser fc = new JFileChooser();
 
-        if(lastFolder.length() > 0)
-        fc.setCurrentDirectory(new java.io.File(lastFolder));
+        if (lastFolder.length() > 0) {
+            fc.setCurrentDirectory(new java.io.File(lastFolder));
+        }
 
         fc.setDialogTitle("Select the academic word list file");
 
         //If option selected, save the path, and update GUI
-        if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             academicWordListFilePath = fc.getSelectedFile().toString();
             lastFolder = fc.getSelectedFile().getParent();
 
-            String fileNameToDisplay = academicWordListFilePath.length() < 35 ? academicWordListFilePath : academicWordListFilePath.substring(0,35) + "...";
+            String fileNameToDisplay = academicWordListFilePath.length() < 35 ? academicWordListFilePath : academicWordListFilePath.substring(0, 35) + "...";
             label_fileName_academicWordList.setText("File: " + fileNameToDisplay);
 
             updateConsole("Loaded the academic word list File...\nPath: " + academicWordListFilePath);
@@ -1335,27 +1448,29 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_button_chooseFile_academicWordListActionPerformed
 
     private void combobox_inputType_academicWordListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_inputType_academicWordListActionPerformed
-        if(combobox_inputType_academicWordList.getSelectedIndex() == 2)
-              combobox_customDelimiter_academicWordList.setEnabled(true);
-        else
-              combobox_customDelimiter_academicWordList.setEnabled(false);
+        if (combobox_inputType_academicWordList.getSelectedIndex() == 2) {
+            combobox_customDelimiter_academicWordList.setEnabled(true);
+        } else {
+            combobox_customDelimiter_academicWordList.setEnabled(false);
+        }
     }//GEN-LAST:event_combobox_inputType_academicWordListActionPerformed
 
     private void button_chooseFile_PostTDListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_chooseFile_PostTDListActionPerformed
-       //Create a file chooser object set to the last open directory
+        //Create a file chooser object set to the last open directory
         JFileChooser fc = new JFileChooser();
 
-        if(lastFolder.length() > 0)
+        if (lastFolder.length() > 0) {
             fc.setCurrentDirectory(new java.io.File(lastFolder));
+        }
 
         fc.setDialogTitle("Select the file with the post-talking drawing responses");
 
         //If option selected, save the path, and update GUI
-        if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             postTDRFilePath = fc.getSelectedFile().toString();
             lastFolder = fc.getSelectedFile().getParent();
 
-            String fileNameToDisplay = postTDRFilePath.length() < 35 ? postTDRFilePath : postTDRFilePath.substring(0,35) + "...";
+            String fileNameToDisplay = postTDRFilePath.length() < 35 ? postTDRFilePath : postTDRFilePath.substring(0, 35) + "...";
             label_fileName_PostTDList.setText("File: " + fileNameToDisplay);
 
             postTDRLoaded = true;
@@ -1364,23 +1479,24 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_button_chooseFile_PostTDListActionPerformed
 
     private void combobox_inputType_PostTDListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_inputType_PostTDListActionPerformed
-        if(combobox_inputType_PostTDList.getSelectedIndex() == 2)
+        if (combobox_inputType_PostTDList.getSelectedIndex() == 2) {
             combobox_customDelimiter_PostTDList.setEnabled(true);
-        else
-             combobox_customDelimiter_PostTDList.setEnabled(false);
+        } else {
+            combobox_customDelimiter_PostTDList.setEnabled(false);
+        }
     }//GEN-LAST:event_combobox_inputType_PostTDListActionPerformed
 
     /**
-     * loadList takes a file path to a word list  and loads the words into an ArrayList<String> using a custom delimiter
-     * 
+     * loadList takes a file path to a word list and loads the words into an
+     * ArrayList<String> using a custom delimiter
+     *
      * @param list ArrayList<String> where the word list is to be stored
      * @param inputType Selection index on the JComboBox for the delimiter type
      * @param filePath Path to the word list to load in
      * @param customDelimiter Delimiter used to separate words
      */
-    private void loadList(ArrayList<String> list, int inputType, String filePath, String customDelimiter){
-        
-        
+    private void loadList(ArrayList<String> list, int inputType, String filePath, String customDelimiter) {
+
         //Declare Readers
         BufferedReader bufferedReader = null;
         FileReader fileReader = null;
@@ -1388,7 +1504,7 @@ public class MainForm extends javax.swing.JFrame {
         //Initialize Delimiters
         String delimiter = "";
         boolean lineDelimiter = false;
-        
+
         //Set Delimiter
         switch (inputType) {
             case 0:
@@ -1405,91 +1521,93 @@ public class MainForm extends javax.swing.JFrame {
         //Read file
         try {
 
-                //Instantiate readers
-                fileReader = new FileReader(filePath);
-                bufferedReader = new BufferedReader(fileReader);
+            //Instantiate readers
+            fileReader = new FileReader(filePath);
+            bufferedReader = new BufferedReader(fileReader);
 
-                //Input Line
-                String line = "";
-                String cumulativeText = "";
+            //Input Line
+            String line = "";
+            String cumulativeText = "";
 
-                //Read Line by Line
-                while ((line = bufferedReader.readLine()) != null) {
-                    
-                    //Save Line
-                    cumulativeText += line;
-                    
-                    //Parse Line
-                    if(lineDelimiter){
-                        list.add(line.trim().toLowerCase());
-                        cumulativeText = "";
-                    }else if(cumulativeText.contains(delimiter)){
-                        
-                        //Words
-                        String[] words = cumulativeText.split(delimiter);
-                 
-                        //Add words
-                        for(int wordIndex = 0; wordIndex < words.length; wordIndex++){
-                            if(words[wordIndex].trim().length() > 0)
-                                 list.add(words[wordIndex].trim().toLowerCase());
+            //Read Line by Line
+            while ((line = bufferedReader.readLine()) != null) {
+
+                //Save Line
+                cumulativeText += line;
+
+                //Parse Line
+                if (lineDelimiter) {
+                    list.add(line.trim().toLowerCase());
+                    cumulativeText = "";
+                } else if (cumulativeText.contains(delimiter)) {
+
+                    //Words
+                    String[] words = cumulativeText.split(delimiter);
+
+                    //Add words
+                    for (int wordIndex = 0; wordIndex < words.length; wordIndex++) {
+                        if (words[wordIndex].trim().length() > 0) {
+                            list.add(words[wordIndex].trim().toLowerCase());
                         }
-                        
-                        //Trim text
-                        cumulativeText = cumulativeText.substring(cumulativeText.lastIndexOf(delimiter) + 1);
-                    }      
+                    }
+
+                    //Trim text
+                    cumulativeText = cumulativeText.substring(cumulativeText.lastIndexOf(delimiter) + 1);
                 }
-                
-                //Add final word & check repeat
-                if(list.size() > 0 && !cumulativeText.trim().equalsIgnoreCase(list.get(list.size() - 1)) && cumulativeText.trim().length() > 0)
-                     list.add(cumulativeText.trim().toLowerCase());
+            }
+
+            //Add final word & check repeat
+            if (list.size() > 0 && !cumulativeText.trim().equalsIgnoreCase(list.get(list.size() - 1)) && cumulativeText.trim().length() > 0) {
+                list.add(cumulativeText.trim().toLowerCase());
+            }
 
         } catch (IOException e) {
-              JOptionPane.showMessageDialog(null, "Cannot read in list! ", "Error: Cannot Read File!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Cannot read in list! ", "Error: Cannot Read File!", JOptionPane.ERROR_MESSAGE);
         } finally {
 
             //Close File Readers
             try {
-                if (bufferedReader != null)
-                        bufferedReader.close();
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
 
-                if (fileReader != null)
-                        fileReader.close();
+                if (fileReader != null) {
+                    fileReader.close();
+                }
 
             } catch (IOException ex) {
-              JOptionPane.showMessageDialog(null, "Cannot close file writer! ", "Error: Cannot Close File Writer!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Cannot close file writer! ", "Error: Cannot Close File Writer!", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-   
+
     /**
-     * 
-     * @param list ArrayList<String> of words to print 
+     *
+     * @param list ArrayList<String> of words to print
      */
-    private void printList(ArrayList<String> list, boolean listLoaded){
-         
+    private void printList(ArrayList<String> list, boolean listLoaded) {
+
         //Check to make sure the science word list file is loaded
-        if(listLoaded){
+        if (listLoaded) {
 
             //Print word list
             int counter = 1;
-            for(String word : list){
+            for (String word : list) {
                 updateConsole("Word " + counter++ + ": " + word);
             }
-        }else{
+        } else {
             updateConsole("Error: Cannot preview word list. File is not loaded.");
         }
     }
-   
+
     /**
-     * 
+     *
      * @param text This is the message to be pushed to the console
      */
-    private void updateConsole(String text){
+    private void updateConsole(String text) {
         textarea_console.setText(textarea_console.getText() + text + "\n");
     }
-    
-    
-    
+
     /**
      * @param args the command line arguments
      */
