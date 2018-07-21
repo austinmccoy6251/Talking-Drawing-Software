@@ -85,7 +85,6 @@ public class MainForm extends javax.swing.JFrame {
         combobox_inputType_academicWordList = new javax.swing.JComboBox<>();
         label_inputType_academicWordList = new javax.swing.JLabel();
         button_chooseFile_academicWordList = new javax.swing.JButton();
-        label_inputType2 = new javax.swing.JLabel();
         label_customDelimiter_academicWordList = new javax.swing.JLabel();
         label_console = new javax.swing.JLabel();
         label_inputType_PreTDList = new javax.swing.JLabel();
@@ -160,6 +159,7 @@ public class MainForm extends javax.swing.JFrame {
         label_inputType_PostTDResponses = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Talking Drawing Software");
         setBackground(new java.awt.Color(78, 91, 121));
         setMaximumSize(new java.awt.Dimension(650, 960));
         setMinimumSize(new java.awt.Dimension(650, 960));
@@ -214,12 +214,6 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         main_panel.add(button_chooseFile_academicWordList, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 130, -1));
-
-        label_inputType2.setFont(new java.awt.Font("Open Sans Light", 0, 18)); // NOI18N
-        label_inputType2.setForeground(java.awt.Color.white);
-        label_inputType2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        label_inputType2.setText("Input Type");
-        main_panel.add(label_inputType2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
         label_customDelimiter_academicWordList.setFont(new java.awt.Font("Open Sans Light", 0, 18)); // NOI18N
         label_customDelimiter_academicWordList.setForeground(java.awt.Color.white);
@@ -1667,7 +1661,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel label_fileName_commonWordList;
     private javax.swing.JLabel label_fileName_questionWordList;
     private javax.swing.JLabel label_fileName_scienceWordList;
-    private javax.swing.JLabel label_inputType2;
     private javax.swing.JLabel label_inputType_PostTDList;
     private javax.swing.JLabel label_inputType_PostTDResponses;
     private javax.swing.JLabel label_inputType_PreTDList;
